@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body {
+        background-color: black;
+        color: white;
+        font-size: 20px;
+        margin: 0px;
+    }
+    a{
+        text-decoration: none;
+        color: white;
+    }
+    
+    .navbar {
+        margin: auto;
+        width: 99%;
+        height: 60px;
+        background-color: black;
+        border: 2px solid red;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        /* align-items: center; */
+        position:sticky;
+     	top:0px;
+    }
+    .navbar >div{
+        display: flex ;
+        justify-content: center;
+        align-items: center;
+    }
+
+    input {
+        width: 80%;
+        height: 50%;
+        border-color: red;
+    border-radius: 10px;
+    color: red;
+    text-align: center;
+    }
+
+    button {
+        width: 70px;
+        height: 50%;
+        border-color: red;
+    border-radius: 10px;
+    color: red;
+    }
+
+    #logout{
+        cursor: pointer;
+    }
+    #logout:hover{
+        color: red;
+    }
+
+   
+    
+    #brandlogo{
+        flex: 2.3;
+    }
+    #searchInput{
+            flex: 6;
+        }
+    #navRight{
+        flex: 2.5;
+        gap: 50px;
+    }
+    /* div{
+        border: 1px solid white;
+    } */
+    #brandlogo>img{
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+    }
+    #user{
+        text-align: center;
+        display: grid;
+        /* width: px; */
+        height: 100%;
+    }
+    #user>img{
+        width: 35px;
+        height: 35px;
+        border: 1px solid green;
+        border-radius: 50%;
+        margin: auto;
+
+    }
+
+    #allsearch{
+        width: 400px;
+        max-height: 250px;
+        /* border: 1px solid red; */
+        position:fixed;
+        top:50px;
+        left: 450px;
+        overflow-y: scroll;
+        
+    }
+    #allsearch::-webkit-scrollbar{
+        width: 0px;
+    }
+    #allsearch>div{
+        margin-top: 5px;
+        display: flex;
+        width: 300px;
+        height: 60px;
+        border: 1px solid yellow;
+        background-color: white;
+    }
+    #allsearch>div>div:nth-child(1){
+        width: 30%;
+        height: 100%;
+        /* border: 1px solid pink; */
+    }
+    #allsearch>div>div>img{
+        height: 100%;
+        width: 100%;
+    }
+    #allsearch>div>div:nth-child(2){
+        width: 80%;
+        height: 100%;
+        color: red;
+        /* border: 1px solid green; */
+    }
+    #details{
+        text-align: center;
+        margin: auto;
+        width: 900px;
+        /* border: 1px solid green; */
+        line-height: 20px;
+    }
+    .poster{
+        margin: auto;
+        width: 70%;
+    }
+    .poster>img{
+        width: 70%;
+        height: 400px;
+        margin-top: 20px;
+    }
+/* container */
+    .container{
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        align-items: center;
+        margin: auto;
+        width: 98%;
+        height: auto;
+        /* border: 1px solid; */
+    }
+    .container>div{
+        margin-top: 25px;
+        width: 23%;
+        border: 1px solid transparent;
+        height: 500px;
+
+    }
+    .container>div>img{
+        width: 100%;
+        height: 80%;
+    }
+    
+</style>
+
+<body>
+    <!-- <div class="netflix"></div> -->
+    <div class="navbar">
+        <div id="brandlogo"><img
+            src="https://assets.brand.microsites.netflix.io/assets/7dc497e2-4975-11ec-a9ce-066b49664af6_cm_1440w.jpg?v=1"
+            alt=""></div>
+
+        <div id="searchInput">
+            <input type="search" id="search" placeholder="search movie here" oninput="debounce(showsearch,300)" >
+        <button>search</button>
+        </div>
+        
+        <div id="navRight">
+           <div id="user">
+               <img id="profile_img" src="https://i.pinimg.com/474x/76/4d/59/764d59d32f61f0f91dec8c442ab052c5.jpg" alt="">
+               <span id="user_name"><a href="login.html">Login</a> </span>
+           </div>
+           <div id="logout" >Log out</div>
+        </div>
+    </div>
+    <div id="allsearch"></div>
+
+    <div id="details">
+        <div class="poster"></div>
+    </div>
+
+    <div class="container"></div>
+</body>
+
+</html>
+<script>
+///////////////////////////////////append user data and log out part///////////////////////////////////////
+
+       let arr = JSON.parse(localStorage.getItem("userdetails"));  
+
+    //    console.log(userdetails);
+
+       append_user = (arr)=>{
+           arr.map((ele)=>{
+
+            let profile_img = document.getElementById("profile_img");
+            profile_img.src = "https://projects.sapbazar.com/public/uploads/admin/users/default.png"
+
+            let user_name = document.getElementById("user_name");
+            user_name.innerHTML = ele.name
+            
+           })
+       }
+
+       append_user(arr)
+
+
+       let logout = document.getElementById("logout");
+       logout.addEventListener("click",()=>{
+           remove_user(arr)
+           window.location = "index.html"
+       })
+
+       remove_user = (arr)=>{
+           arr.splice(0,1);
+        //    console.log(arr);
+
+
+           let profile_img = document.getElementById("profile_img");
+            profile_img.src = "https://i.pinimg.com/474x/76/4d/59/764d59d32f61f0f91dec8c442ab052c5.jpg"
+
+           let user_name = document.getElementById("user_name");
+            user_name.innerHTML = `<a href="login.html">Login</a>`
+
+
+          localStorage.setItem("userdetails",JSON.stringify(arr))
+
+          document.querySelector(".poster").innerHTML = null;
+       }
+///////////////////////////////////////////////////////////////  show data on the page //////////////////////////////////////////////////
+
+
+
+         async function showsearch(){
+
+            try{
+
+                let movie = document.getElementById("search").value;
+
+            let res = await fetch( `http://www.omdbapi.com/?apikey=8f20c53f&s=${movie}`)
+
+            data = await res.json();
+
+            movies = data.Search;
+
+            // console.log("data:",movies);
+
+            appendallsearch(movies);
+
+            }
+            catch(err){
+                console.log("err:",err);
+            }
+
+         }
+
+
+         let appendallsearch = (data)=>{
+            document.getElementById("allsearch").innerHTML = null;
+            //  console.log(data);
+            data.forEach(ele => {
+                
+                let div = document.createElement("div");
+                div.addEventListener("click",()=>{
+                    showdetails(ele);
+                })
+
+                let d1 = document.createElement("div");
+                let d2 = document.createElement("div");
+
+                let poster = document.createElement("img");
+                poster.src = ele.Poster
+
+                let name = document.createElement("p");
+                name.innerText = ele.Title;
+
+                let date = document.createElement("p")
+                date.innerText = ele.Year
+
+                d1.append(poster);
+                d2.append(name);
+
+                div.append(d1,d2);
+
+                document.getElementById("allsearch").append(div);
+
+
+
+            });
+         }
+
+
+         let showdetails = (ele)=>{
+
+            document.querySelector(".poster").innerHTML = null;
+            document.getElementById("allsearch").innerHTML = null;
+
+            let poster = document.createElement("img");
+                poster.src = ele.Poster
+
+                let name = document.createElement("h2");
+                name.innerText = ele.Title;
+
+                let type = document.createElement("h2");
+                type.innerText = `Type: ${ele.Type}`;
+
+                let year = document.createElement("p")
+                year.innerText = `Release: ${ele.Year}`
+
+            document.querySelector(".poster").append(poster,name,type,year)
+
+         }
+
+
+         
+        ///////////////debouncing aproach//////////////////////
+
+               let movie_waiting;
+
+          let debounce = (func,delay)=>{
+
+           if(movie_waiting){
+               clearTimeout(movie_waiting);
+           }
+
+            movie_waiting = setTimeout(()=>{
+              func();
+            },delay);
+          }
+
+
+         ////////////////////////////////////////////////show all movies /////////////////////////////////////////
+
+         async function getdata(){
+          try{
+
+            //   let url = `https://api.themoviedb.org/3/trending/all/day?api_key=fa08e2d7b11b12a9e5dcb1f6e1af6caf`
+              let url = `https://api.themoviedb.org/4/list/1?api_key=fa08e2d7b11b12a9e5dcb1f6e1af6caf`
+            
+    
+              let res = await fetch(url);
+    
+              let data = await res.json();
+              movieArr = data.results;
+               showmovie(movieArr);
+            //   console.log("data:",movieArr);
+          }
+          catch(err){
+              console.log(err);
+          }
+
+      }
+
+getdata();
+
+       function showmovie(movie){
+           document.querySelector(".container").innerHTML = null;
+           movie.forEach(function(ele){
+            //    console.log(ele.poster_path)
+            let div = document.createElement("div");
+
+            let img = document.createElement("img");
+            img.setAttribute("src",`https://www.themoviedb.org/t/p/w1280${ele.poster_path}`) 
+
+            let name = document.createElement("h3")
+            name.innerText = ele.title;
+
+            let imdb = document.createElement("p")
+            imdb.innerText = `IMDB: ${ele.vote_average}`;
+
+            // let date = document.createElement("p");
+            // date.innerText = `Realease Date: ${ele.release_date}`
+
+             div.append(img,name,imdb);
+
+             document.querySelector(".container").append(div)
+
+
+
+           })
+       }
+
+
+
+
+
+
+   
+</script>
